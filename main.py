@@ -9,10 +9,18 @@ from fastapi.responses import JSONResponse
 
 app = FastAPI(title="API Leads Seguro Auto")
 
-# Configuração de CORS para permitir o React
+# Configuração de CORS robusta
+origins = [
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "https://pea-automate-frontend.vercel.app",
+    "https://pea-automate-frontend-lucas94lbrdfs-projects.vercel.app", # Vercel preview URL pattern
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # Em produção, coloque a URL do seu frontend
+    allow_origins=origins + ["*"], # Mantendo * como fallback, mas listando explicitamente por segurança
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
